@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webcam</title>
+    <style>
+        canvas{
+            background-color: gray;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-wrap">
+        <video id="video" playsinline autoplay></video>
+    </div>
+
+    <script>
+        'use strict';
+
+        const video = document.getElementById('video');
+        const errorMsgElement = document.getElementById('errorMsgElement');
+
+        const constraints = {
+            audio: true,
+            video:{
+                width: 1280, height:720
+            }
+        };
+
+        async function init(){
+            try{
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                handleSuccess(stream);
+            }
+            catch(e){
+                errorMsgElement.innerHTML = `navigator.getUserMedia.error:${e.toString()}`;
+            }
+        }
+
+        // Success
+        function handleSuccess(stream){
+            window.stream = stream;
+            video.srcObject = stream;
+        }
+
+        // Load Init
+        init();
+
+        
+    </script>
+    
+</body>
+</html>

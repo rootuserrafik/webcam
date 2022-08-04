@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screen Capture</title>
+    <style>
+        *{
+            text-align: left;
+            background-color: gray;
+            /* color: darkgreen; */
+        }
+        #video{
+            border: 1px solid #999;
+            width: 98%;
+            max-width: 860px;
+            margin-top: 10px;
+            background-color: #fff;
+        }
+
+    </style>
+    
+</head>
+<body>
+
+    <h1>Screen Capoture Application Using Screen Capture API</h1>
+
+    <button id="start">Start Capture</button>
+    <button id="stop">Stop Capture</button>
+<br>
+    <video id="video" autoplay></video>
+
+    <script>
+        const videoElement = document.getElementById("video");
+        const start = document.getElementById("start");
+        const stop = document.getElementById("stop");
+
+
+        var dispalyMediaOptions = {
+            video:{
+                cursor:'always'
+            },
+            audio:false
+        }
+
+        start.addEventListener("click", function(e){
+            startCapture()
+        },false)
+        stop.addEventListener("click", function(e){
+            stopCapture()
+        },false)
+
+        async function startCapture(){
+            try{
+                // videoElement.srcObject = await navigator.mediaDevices.getUserMedia(dispalyMediaOptions)
+                videoElement.srcObject = await navigator.mediaDevices.getDisplayMedia(dispalyMediaOptions)
+            }catch(err){
+                console.error("Error" + err)
+            }
+        }
+        function stopCapture(e){
+            let tracks = videoElement.srcObject.getTracks()
+
+            tracks.forEach(track => track.stop())
+
+            videoElement.srcObject = null
+        }
+
+        // https://www.youtube.com/watch?v=OrM5pv044Uc
+    </script>
+    
+</body>
+</html>
